@@ -132,3 +132,54 @@ async function eliminarAnimal(nombre) {
 function verDetalles(nombre) {
     alert(`Aquí se mostrarán los detalles de ${nombre} en el futuro.`);
 }
+
+
+// Mostrar y ocultar el formulario
+document.getElementById("addAnimalBtn").addEventListener("click", () => {
+    document.getElementById("formularioAgregar").style.display = "block";
+});
+
+document.getElementById("cancelarBtn").addEventListener("click", () => {
+    document.getElementById("formularioAgregar").style.display = "none";
+});
+
+// Función para guardar el nuevo animal
+document.getElementById("guardarAnimalBtn").addEventListener("click", async () => {
+    const nombre = document.getElementById("nombre").value.trim();
+    const tipo = document.getElementById("tipo").value.trim();
+    const color = document.getElementById("color").value.trim();
+    const raza = document.getElementById("raza").value.trim();
+
+    if (!nombre || !tipo || !color || !raza) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    const nuevoAnimal = {
+        nombre,
+        tipo,
+        color,
+        raza
+    };
+
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(nuevoAnimal)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status}`);
+        }
+
+        alert(`El animal ${nombre} ha sido añadido correctamente.`);
+        document.getElementById("formularioAgregar").style.display = "none";
+        cargarAnimales(); // Recargar la lista de animales
+    } catch (error) {
+        console.error("Error al añadir el animal:", error);
+        alert("No se pudo añadir el animal. Inténtalo de nuevo.");
+    }
+});
