@@ -1,8 +1,9 @@
-const API_URL = "https://apivet-f3bdad4c157d.herokuapp.com/animales";
+﻿const API_URL = "https://apivet-f3bdad4c157d.herokuapp.com/animales";
 
 async function cargarAnimales() {
     const response = await fetch(API_URL);
     const animales = await response.json();
+    console.log("Respuesta de la API:", data); // 🔍 Ver qué está devolviendo la API
 
     const lista = document.getElementById("animal-list");
     lista.innerHTML = ""; // Limpiar lista antes de cargar
@@ -35,15 +36,15 @@ function buscarAnimal() {
 }
 
 function confirmarEliminar(id) {
-    if (confirm("�Seguro que quieres eliminar este animal?")) {
+    if (confirm("¿Seguro que quieres eliminar este animal?")) {
         eliminarAnimal(id);
     }
 }
 
 async function eliminarAnimal(id) {
     await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    cargarAnimales(); // Recargar lista despu�s de eliminar
+    cargarAnimales(); // Recargar lista después de eliminar
 }
 
-// Cargar animales al cargar la p�gina
+// Cargar animales al cargar la página
 document.addEventListener("DOMContentLoaded", cargarAnimales);
