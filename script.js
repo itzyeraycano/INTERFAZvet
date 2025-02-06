@@ -1,87 +1,89 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
-    cargarAnimales(); // Cargar todos los animales al cargar la página
+    cargarAnimales();
 
-    // Escuchar el evento de clic en el botón de buscar
     document.getElementById("buscarBtn").addEventListener("click", function () {
         const nombre = document.getElementById("buscarNombre").value.trim();
         if (nombre) {
-            buscarAnimalPorNombre(nombre); // Buscar por nombre
+            buscarAnimalPorNombre(nombre);
         } else {
             cargarAnimales(); // Si el campo está vacío, mostrar todos los animales
         }
     });
 });
 
-// Función para cargar todos los animales
-function cargarAnimales() {
-    fetch("https://apivet-f3bdad4c157d.herokuapp.com/animales")
-        .then(response => response.json())
-        .then(data => {
-            if (Array.isArray(data)) {
-                mostrarAnimales(data); // Si los datos son un array, mostramos todos
-            } else {
-                console.error("La API no devolvió un array:", data);
-                mostrarAnimales([]); // Si no es un array, mostramos nada
-            }
-        })
-        .catch(error => console.error("Error al cargar animales:", error));
-}
+async function cargarAnimales() {
+    try {
+        const response = await fetch("https://apivet-f3bdad4c157d.herokuapp.com/");
+        const animales = await response.json();
 
-// Función para buscar un animal por nombre
-function buscarAnimalPorNombre(nombre) {
-    fetch(`https://apivet-f3bdad4c157d.herokuapp.com/animales?nombre=${nombre}`)
-        .then(response => response.json())
-        .then(data => {
-            if (Array.isArray(data) && data.length > 0) {
-                mostrarAnimales(data); // Mostrar solo el animal que coincide
-            } else {
-                console.log("No se encontraron animales con ese nombre.");
-                mostrarAnimales([]); // Mostrar nada si no se encuentra
-            }
-        })
-        .catch(error => console.error("Error al buscar el animal:", error));
-}
+        if (!animales || typeof animales !== "object") {
+            console.error("La API no devolvió un objeto válido:", animales);
+            return;
+        }
 
-// Función para mostrar los animales
-function mostrarAnimales(animales) {
-    const contenedor = document.getElementById("contenedorAnimales");
-    contenedor.innerHTML = ''; // Limpiar antes de añadir nuevos animales
-
-    if (animales.length === 0) {
-        contenedor.innerHTML = '<p>No se encontraron animales.</p>';
+        mostrarAnimales(animales);
+    } catch (error) {
+        console.error("Error al obtener los datos de la API:", error);
     }
+}
 
-    animales.forEach(animal => {
-        const div = document.createElement("div");
-        div.classList.add("animal");
-        div.innerHTML = `
-            <h3>${animal.nombre}</h3>
-            <p>Tipo: ${animal.tipo}</p>
-            <p>Color: ${animal.color}</p>
-            <p>Raza: ${animal.raza}</p>
-            <button class="verDetallesBtn">Ver detalles</button>
-            <button class="eliminarBtn" onclick="eliminarAnimal('${animal.nombre}')">Eliminar</button>
+function mostrarAnimales(animales) {
+    const container = document.getElementById("animales-container");
+    container.innerHTML = ""; // Limpiar antes de mostrar
+
+    Object.keys(animales).forEach(nombre => {
+        const animal = animales[nombre];
+        const animalDiv = document.createElement("div");
+        animalDiv.classList.add("animal");
+
+        animalDiv.innerHTML = `
+            <h3>${nombre}</h3>
+            <p><strong>Tipo:</strong> ${animal.tipo}</p>
+            <p><strong>Color:</strong> ${animal.color}</p>
+            <p><strong>Raza:</strong> ${animal.raza}</p>
+            <button class="btn-ver">Ver detalles</button>
+            <button class="btn-eliminar" onclick="eliminarAnimal('${nombre}')">Eliminar</button>
         `;
-        contenedor.appendChild(div);
+
+        container.appendChild(animalDiv);
     });
 }
 
-// Función para eliminar un animal
+async function buscarAnimalPorNombre(nombre) {
+    try {
+        const response = await fetch(`https://apivet-f3bdad4c157d.herokuapp.com/`);
+        const animales = await response.json();
+
+        if (!animales || typeof animales !== "object") {
+            console.error("La API no devolvió un objeto válido:", animales);
+            return;
+        }
+
+        if (animales[nombre]) {
+            mostrarAnimales({ [nombre]: animales[nombre] }); // Mostrar solo el animal encontrado
+        } else {
+            alert("No se encontró el animal con ese nombre.");
+            cargarAnimales(); // Si no existe, vuelve a mostrar todos
+        }
+    } catch (error) {
+        console.error("Error al buscar el animal:", error);
+    }
+}
+
 function eliminarAnimal(nombre) {
-    const confirmarEliminacion = confirm(`¿Seguro que quieres eliminar al animal ${nombre}?`);
-    if (confirmarEliminacion) {
-        fetch(`https://apivet-f3bdad4c157d.herokuapp.com/animales/${nombre}`, {
+    const confirmacion = confirm(`¿Seguro que deseas eliminar a ${nombre}?`);
+    if (confirmacion) {
+        fetch(`https://apivet-f3bdad4c157d.herokuapp.com/${nombre}`, {
             method: "DELETE",
         })
             .then(response => {
                 if (response.ok) {
-                    alert(`Animal ${nombre} eliminado.`);
-                    cargarAnimales(); // Recargar la lista de animales
+                    alert(`El animal ${nombre} ha sido eliminado.`);
+                    cargarAnimales();
                 } else {
-                    alert(`Error al eliminar el animal ${nombre}.`);
+                    alert("Error al eliminar el animal.");
                 }
             })
-            .catch(error => console.error("Error al eliminar animal:", error));
+            .catch(error => console.error("Error al eliminar el animal:", error));
     }
 }
-

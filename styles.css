@@ -1,62 +1,74 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    text-align: center;
+    background-color: #f8f8f8;
+    margin: 0;
     padding: 20px;
 }
 
 h1 {
-    text-align: center;
     color: #333;
 }
 
 .buscador {
-    display: flex;
-    justify-content: center;
     margin-bottom: 20px;
 }
 
     .buscador input {
         padding: 8px;
+        width: 200px;
         margin-right: 10px;
     }
 
-#contenedorAnimales {
+    .buscador button {
+        padding: 8px 15px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+        .buscador button:hover {
+            background-color: #0056b3;
+        }
+
+#animales-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .animal {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background-color: #ddd;
     padding: 15px;
-    width: 200px;
-    text-align: center;
+    margin: 10px;
+    width: 300px;
+    border-radius: 5px;
+    text-align: left;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-    .animal h3 {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
-
-    .animal p {
-        font-size: 14px;
-        margin: 5px 0;
-    }
-
     .animal button {
-        background-color: #ff4d4d;
+        margin-top: 10px;
+        padding: 5px 10px;
         border: none;
-        color: white;
-        padding: 8px 15px;
-        margin: 5px;
         cursor: pointer;
-        border-radius: 5px;
     }
 
-        .animal button:hover {
-            background-color: #e60000;
-        }
+.btn-ver {
+    background-color: #28a745;
+    color: white;
+}
+
+    .btn-ver:hover {
+        background-color: #218838;
+    }
+
+.btn-eliminar {
+    background-color: #dc3545;
+    color: white;
+}
+
+    .btn-eliminar:hover {
+        background-color: #c82333;
+    }
