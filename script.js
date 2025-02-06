@@ -114,16 +114,8 @@ async function eliminarAnimal(nombre) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    cargarAnimales(); // Cargar todos los animales al cargar la página
-
-    // Escuchar el evento de clic en el botón de buscar
-    document.getElementById("buscarBtn").addEventListener("click", function () {
-        const nombre = document.getElementById("buscarNombre").value.trim();
-        if (nombre) {
-            buscarAnimalPorNombre(nombre); // Buscar por nombre
-        } else {
-            cargarAnimales(); // Si el campo está vacío, mostrar todos los animales
-        }
-    });
+// Llamar a la función al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+    cargarAnimales();
+    document.getElementById("buscar-btn").addEventListener("click", buscarAnimal);
 });
