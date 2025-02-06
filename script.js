@@ -183,3 +183,15 @@ document.getElementById("guardarAnimalBtn").addEventListener("click", async () =
         alert("No se pudo añadir el animal. Inténtalo de nuevo.");
     }
 });
+
+// Limpiar los campos antes de mostrar el formulario
+document.getElementById("addAnimalBtn").addEventListener("click", () => {
+    
+    document.getElementById("nombre").value = "";
+    document.getElementById("tipo").value = "";
+    document.getElementById("color").value = "";
+    document.getElementById("raza").value = "";
+
+    // Mostrar el formulario
+    document.getElementById("formularioAgregar").style.display = "block";
+});
