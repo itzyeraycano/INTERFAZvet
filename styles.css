@@ -1,22 +1,4 @@
-﻿/* Contenedor del botón de añadir */
-.add-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Botón "Añadir Animal" */
-#addAnimalBtn {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
+﻿
 /* Alinear el título al centro */
 h2 {
     text-align: center;
@@ -126,3 +108,84 @@ h2 {
         border-radius: 5px;
         font-size: 16px;
     }
+
+/* Contenedor del botón de añadir */
+.add-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Botón "Añadir Animal" */
+#addAnimalBtn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+    #addAnimalBtn:hover {
+        background-color: #218838;
+        transform: scale(1.05);
+    }
+
+    #addAnimalBtn:active {
+        transform: scale(0.95);
+    }
+
+/* Formulario para agregar un animal */
+#formularioAgregar {
+    display: none;
+    text-align: center;
+    background: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 300px;
+}
+
+    #formularioAgregar input {
+        display: block;
+        width: 90%;
+        margin: 10px auto;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+#guardarAnimalBtn, #cancelarBtn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+}
+
+#guardarAnimalBtn {
+    background-color: #007BFF;
+    color: white;
+}
+
+    #guardarAnimalBtn:hover {
+        background-color: #0056b3;
+    }
+
+#cancelarBtn {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+    #cancelarBtn:hover {
+        background-color: #e60000;
+    }
+
+/* Clase para ocultar elementos */
+.hidden {
+    display: none;
+}
