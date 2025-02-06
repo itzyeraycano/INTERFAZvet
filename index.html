@@ -9,10 +9,28 @@
 <body>
     <div id="app">
         <h1>VETAUX</h1>
+
+        <!-- Buscador -->
         <div class="buscador">
             <label for="buscarNombre">Buscar por nombre:</label>
             <input type="text" id="buscarNombre" placeholder="Escribe el nombre del animal">
             <button id="buscarBtn">Buscar</button>
+        </div>
+
+        <!-- Botón para añadir un nuevo animal -->
+        <div class="add-container">
+            <button id="addAnimalBtn">Añadir Animal</button>
+        </div>
+
+        <!-- Formulario oculto para agregar animales -->
+        <div id="formularioAgregar" class="hidden">
+            <h2>Añadir Nuevo Animal</h2>
+            <input type="text" id="nombre" placeholder="Nombre del animal">
+            <input type="text" id="tipo" placeholder="Tipo (Ej: Perro, Gato)">
+            <input type="text" id="color" placeholder="Color">
+            <input type="text" id="raza" placeholder="Raza">
+            <button id="guardarAnimalBtn">Guardar</button>
+            <button id="cancelarBtn">Cancelar</button>
         </div>
 
         <h2>Todos los animales</h2>
@@ -20,10 +38,7 @@
             <!-- Los animales se cargarán aquí -->
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
