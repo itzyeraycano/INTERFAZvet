@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VETAUX</title>
+    <title>VETAUX - Interfaz de Veterinarios</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>VETAUX</h1>
+    <div id="app">
+        <h1>VETAUX</h1>
+        <div class="buscador">
+            <label for="buscarNombre">Buscar por nombre:</label>
+            <input type="text" id="buscarNombre" placeholder="Escribe el nombre del animal">
+            <button id="buscarBtn">Buscar</button>
+        </div>
 
-    <div class="search-bar">
-        <label for="search">Buscar por nombre:</label>
-        <input type="text" id="search" placeholder="Escribe el nombre...">
-        <button onclick="buscarAnimal()">Buscar</button>
+        <h2>Todos los animales</h2>
+        <div id="contenedorAnimales">
+            <!-- Los animales se cargarán aquí -->
+        </div>
     </div>
-
-    <h2>TODOS LOS ANIMALES</h2>
-    <div id="animal-list"></div>
-
     <script src="script.js"></script>
 </body>
 </html>
+
