@@ -1,29 +1,43 @@
-﻿const API_URL = "https://apivet-f3bdad4c157d.herokuapp.com/animales";
+﻿const API_URL = "https://apivet-f3bdad4c157d.herokuapp.com/animales"; // Asegúrate de que esta es la URL correcta
 
 async function cargarAnimales() {
-    const response = await fetch(API_URL);
-    const animales = await response.json();
-    console.log("Respuesta de la API:", data); // 🔍 Ver qué está devolviendo la API
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status}`);
+        }
 
-    const lista = document.getElementById("animal-list");
-    lista.innerHTML = ""; // Limpiar lista antes de cargar
+        const data = await response.json(); // Asegura que la variable data existe
+        console.log("Respuesta de la API:", data);
 
-    animales.forEach(animal => {
-        const div = document.createElement("div");
-        div.classList.add("animal-card");
-        div.innerHTML = `
-            <h3>${animal.nombre}</h3>
-            <p><strong>Tipo:</strong> ${animal.tipo}</p>
-            <p><strong>Color:</strong> ${animal.color}</p>
-            <p><strong>Raza:</strong> ${animal.raza}</p>
-            <div class="actions">
-                <button onclick="verDetalles('${animal.nombre}')">Ver detalles</button>
-                <button class="delete-btn" onclick="confirmarEliminar('${animal.nombre}')">Eliminar</button>
-            </div>
-        `;
-        lista.appendChild(div);
-    });
+        if (!Array.isArray(data)) {
+            console.error("La API no devolvió un array:", data);
+            return;
+        }
+
+        const lista = document.getElementById("animal-list");
+        lista.innerHTML = ""; // Limpiar lista antes de cargar
+
+        data.forEach(animal => {
+            const div = document.createElement("div");
+            div.classList.add("animal-card");
+            div.innerHTML = `
+                <h3>${animal.nombre}</h3>
+                <p><strong>Tipo:</strong> ${animal.tipo}</p>
+                <p><strong>Color:</strong> ${animal.color}</p>
+                <p><strong>Raza:</strong> ${animal.raza}</p>
+                <div class="actions">
+                    <button onclick="verDetalles('${animal.id}')">Ver detalles</button>
+                    <button class="delete-btn" onclick="confirmarEliminar('${animal.id}')">Eliminar</button>
+                </div>
+            `;
+            lista.appendChild(div);
+        });
+    } catch (error) {
+        console.error("Error al cargar los animales:", error);
+    }
 }
+
 
 function buscarAnimal() {
     const nombre = document.getElementById("search").value.toLowerCase();
