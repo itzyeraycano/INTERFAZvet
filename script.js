@@ -1,79 +1,127 @@
-const API_URL = "https://apivet-f3bdad4c157d.herokuapp.com";
+let allAnimals = [];
+let animalToDelete = null;
 
-fetch('https://apivet-f3bdad4c157d.herokuapp.com/animales/Luna', {
-    method: 'GET',
-    mode: 'no-cors' // Esto desactiva la política de CORS
-})
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        }
-        throw new Error('Network response was not ok');
-    })
-    .then(data => console.log(data))
-    .catch(error => console.error('There was a problem with the fetch operation:', error));
-
-
-
-
-// Obtener todos los animales
+// Función para obtener todos los animales
 function getAllAnimals() {
-    fetch(`${API_URL}/animales`)  // Verifica que la URL esté correcta
-        .then(response => response.json())
-        .then(data => {
-            const list = document.getElementById("animal-list");
-            list.innerHTML = "<h2>Lista de Animales</h2>";
-            data.forEach(animal => {
-                list.innerHTML += `<p>${animal.nombre} - ${animal.tipo} - ${animal.color} - ${animal.raza}</p>`;
-            });
+    fetch('https://apivet-f3bdad4c157d.herokuapp.com/animals')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
         })
-        .catch(error => console.error("Error:", error));
-}
-
-// Buscar animal por nombre
-function searchByName() {
-    const name = document.getElementById("searchName").value;
-    fetch(`${API_URL}/animales/${name}`)  // Cambié el endpoint a /animales/{nombre}
-        .then(response => response.json())
         .then(data => {
-            const list = document.getElementById("animal-list");
-            list.innerHTML = "<h2>Resultado de la búsqueda</h2>";
-            data.forEach(animal => {
-                list.innerHTML += `<p>${animal.nombre} - ${animal.tipo} - ${animal.color} - ${animal.raza}</p>`;
-            });
+            if (Array.isArray(data)) {
+                allAnimals = data;
+                displayAnimals(allAnimals); // Mostrar todos los animales
+            } else {
+                console.error('La respuesta no es un array', data);
+            }
         })
-        .catch(error => console.error("Error:", error));
+        .catch(error => {
+            console.error('Hubo un problema con la operación fetch:', error);
+        });
 }
 
-// Mostrar formulario de añadir animal
-function showAddAnimalForm() {
-    document.getElementById("add-animal-form").style.display = "block";
+// Función para mostrar los animales
+function displayAnimals(animals) {
+    const animalList = document.getElementById('animal-list');
+    animalList.innerHTML = '';  // Limpiar el contenedor antes de agregar los nuevos animales
+
+    animals.forEach(animal => {
+        const animalDiv = document.createElement('div');
+        animalDiv.classList.add('animal');
+
+        // Aquí creas el contenido para el rectángulo
+        animalDiv.innerHTML = `
+      <h3>${animal.name}</h3>
+      <p>Tipo: ${animal.type}</p>
+      <p>Color: ${animal.color}</p>
+      <p>Raza: ${animal.breed}</p>
+      <button onclick="viewDetails('${animal.id}')">Ver Detalles</button>
+      <button onclick="askDelete('${animal.id}')">Eliminar</button>
+    `;
+
+        // Agregar el div al contenedor
+        animalList.appendChild(animalDiv);
+    });
 }
 
-// Ocultar formulario de añadir animal
-function hideAddAnimalForm() {
-    document.getElementById("add-animal-form").style.display = "none";
+// Función para buscar animales por nombre
+function searchAnimal() {
+    const searchQuery = document.getElementById('search').value.toLowerCase();
+
+    // Filtramos los animales que coinciden con el nombre
+    const filteredAnimals = allAnimals.filter(animal =>
+        animal.name.toLowerCase().includes(searchQuery)
+    );
+
+    displayAnimals(filteredAnimals);  // Mostrar los animales filtrados
 }
 
-// Añadir un nuevo animal
+// Función para añadir un nuevo animal
 function addAnimal() {
-    const nombre = document.getElementById("new-name").value;
-    const tipo = document.getElementById("new-type").value;
-    const color = document.getElementById("new-color").value;
-    const raza = document.getElementById("new-breed").value;
+    const name = document.getElementById('animal-name').value;
+    const type = document.getElementById('animal-type').value;
+    const color = document.getElementById('animal-color').value;
+    const breed = document.getElementById('animal-breed').value;
 
-    fetch(`${API_URL}/animales`, {
-        method: "POST",
+    const animalData = {
+        name,
+        type,
+        color,
+        breed
+    };
+
+    fetch('https://apivet-f3bdad4c157d.herokuapp.com/animals', {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nombre, tipo, color, raza })
+        body: JSON.stringify(animalData),
     })
         .then(response => response.json())
-        .then(() => {
-            alert("Animal añadido con éxito");
-            hideAddAnimalForm();
-            getAllAnimals(); // Recargar la lista
+        .then(data => {
+            // Agregar el nuevo animal a la lista
+            allAnimals.push(data);
+            displayAnimals(allAnimals);  // Actualizar la vista
         })
-        .catch(error => console.error("Error:", error));
+        .catch(error => console.error('Error al añadir el animal:', error));
 }
+
+// Función para ver detalles de un animal
+function viewDetails(id) {
+    window.location.href = `animal-details.html?id=${id}`;
+}
+
+// Función para mostrar el modal de confirmación de eliminación
+function askDelete(id) {
+    animalToDelete = id;
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+// Función para confirmar la eliminación
+function confirmDelete() {
+    fetch(`https://apivet-f3bdad4c157d.herokuapp.com/animals/${animalToDelete}`, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (response.ok) {
+                // Eliminar el animal de la lista local
+                allAnimals = allAnimals.filter(animal => animal.id !== animalToDelete);
+                displayAnimals(allAnimals);  // Actualizar la vista
+                closeModal();  // Cerrar el modal
+            } else {
+                console.error('Error al eliminar el animal');
+            }
+        })
+        .catch(error => console.error('Error al eliminar el animal:', error));
+}
+
+// Función para cerrar el modal de confirmación
+function closeModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+}
+
+// Cargar todos los animales cuando se carga la página
+getAllAnimals();

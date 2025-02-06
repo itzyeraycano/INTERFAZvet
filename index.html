@@ -3,31 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Animales</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>API de Animales</title>
+    <style>
+        /* Estilos generales */
+        .animal {
+            border: 2px solid #333;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+            .animal button {
+                margin: 5px;
+            }
+
+        #animal-list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        /* Estilo para el formulario de agregar animal */
+        .form-container {
+            margin: 20px;
+        }
+
+            .form-container input, .form-container button {
+                margin: 5px;
+            }
+
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+            .confirm-modal .modal-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
+            }
+    </style>
 </head>
 <body>
-    <h1>Gestión de Animales</h1>
+    <h1>Animales</h1>
 
-    <div id="controls">
-        <button onclick="getAllAnimals()">Ver todos los animales</button>
-        <input type="text" id="searchName" placeholder="Buscar por nombre">
-        <button onclick="searchByName()">Buscar</button>
-        <button onclick="showAddAnimalForm()">Añadir Animal</button>
+    <!-- Buscar por nombre -->
+    <input type="text" id="search" placeholder="Buscar por nombre..." oninput="searchAnimal()">
+
+    <!-- Formulario para agregar un nuevo animal -->
+    <div class="form-container">
+        <input type="text" id="animal-name" placeholder="Nombre" required>
+        <input type="text" id="animal-type" placeholder="Tipo" required>
+        <input type="text" id="animal-color" placeholder="Color" required>
+        <input type="text" id="animal-breed" placeholder="Raza" required>
+        <button onclick="addAnimal()">Añadir Animal</button>
     </div>
 
+    <!-- Lista de animales -->
     <div id="animal-list"></div>
 
-    <div id="add-animal-form" style="display: none;">
-        <h2>Añadir Animal</h2>
-        <input type="text" id="new-name" placeholder="Nombre">
-        <input type="text" id="new-type" placeholder="Tipo">
-        <input type="text" id="new-color" placeholder="Color">
-        <input type="text" id="new-breed" placeholder="Raza">
-        <button onclick="addAnimal()">Guardar</button>
-        <button onclick="hideAddAnimalForm()">Cancelar</button>
+    <!-- Modal de confirmación de eliminación -->
+    <div id="confirmModal" class="confirm-modal">
+        <div class="modal-content">
+            <h2>¿Estás seguro de que deseas eliminar este animal?</h2>
+            <button onclick="confirmDelete()">Sí</button>
+            <button onclick="closeModal()">No</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
+
