@@ -1,4 +1,4 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿ddocument.addEventListener("DOMContentLoaded", function () {
     cargarAnimales();
 
     document.getElementById("buscarBtn").addEventListener("click", function () {
@@ -23,15 +23,28 @@ async function cargarAnimales() {
 
         mostrarAnimales(animales);
     } catch (error) {
-        console.error("Error al obtener los datos de la API:", error);
+        console.error("Error al cargar animales:", error);
     }
 }
 
 function mostrarAnimales(animales) {
     const container = document.getElementById("animales-container");
+
+    if (!container) {
+        console.error("No se encontró el contenedor #animales-container.");
+        return;
+    }
+
     container.innerHTML = ""; // Limpiar antes de mostrar
 
-    Object.keys(animales).forEach(nombre => {
+    const nombres = Object.keys(animales);
+
+    if (nombres.length === 0) {
+        container.innerHTML = "<p>No hay animales registrados.</p>";
+        return;
+    }
+
+    nombres.forEach(nombre => {
         const animal = animales[nombre];
         const animalDiv = document.createElement("div");
         animalDiv.classList.add("animal");
@@ -53,7 +66,7 @@ function mostrarAnimales(animales) {
 
 async function buscarAnimalPorNombre(nombre) {
     try {
-        const response = await fetch(`https://apivet-f3bdad4c157d.herokuapp.com/`);
+        const response = await fetch("https://apivet-f3bdad4c157d.herokuapp.com/");
         const animales = await response.json();
 
         if (!animales || typeof animales !== "object") {
@@ -64,7 +77,7 @@ async function buscarAnimalPorNombre(nombre) {
         if (animales[nombre]) {
             mostrarAnimales({ [nombre]: animales[nombre] }); // Mostrar solo el animal encontrado
         } else {
-            alert("No se encontró el animal con ese nombre.");
+            alert("No se encontraron animales con ese nombre.");
             cargarAnimales(); // Si no existe, vuelve a mostrar todos
         }
     } catch (error) {
@@ -93,4 +106,3 @@ function eliminarAnimal(nombre) {
 function verDetalles(nombre) {
     alert(`Aquí se mostrarán los detalles de ${nombre} en el futuro.`);
 }
-
