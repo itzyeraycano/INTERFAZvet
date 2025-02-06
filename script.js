@@ -1,127 +1,49 @@
-let allAnimals = [];
-let animalToDelete = null;
+const API_URL = "https://apivet-f3bdad4c157d.herokuapp.com/animales";
 
-// Función para obtener todos los animales
-function getAllAnimals() {
-    fetch('https://apivet-f3bdad4c157d.herokuapp.com/animals')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (Array.isArray(data)) {
-                allAnimals = data;
-                displayAnimals(allAnimals); // Mostrar todos los animales
-            } else {
-                console.error('La respuesta no es un array', data);
-            }
-        })
-        .catch(error => {
-            console.error('Hubo un problema con la operación fetch:', error);
-        });
-}
+async function cargarAnimales() {
+    const response = await fetch(API_URL);
+    const animales = await response.json();
 
-// Función para mostrar los animales
-function displayAnimals(animals) {
-    const animalList = document.getElementById('animal-list');
-    animalList.innerHTML = '';  // Limpiar el contenedor antes de agregar los nuevos animales
+    const lista = document.getElementById("animal-list");
+    lista.innerHTML = ""; // Limpiar lista antes de cargar
 
-    animals.forEach(animal => {
-        const animalDiv = document.createElement('div');
-        animalDiv.classList.add('animal');
-
-        // Aquí creas el contenido para el rectángulo
-        animalDiv.innerHTML = `
-      <h3>${animal.name}</h3>
-      <p>Tipo: ${animal.type}</p>
-      <p>Color: ${animal.color}</p>
-      <p>Raza: ${animal.breed}</p>
-      <button onclick="viewDetails('${animal.id}')">Ver Detalles</button>
-      <button onclick="askDelete('${animal.id}')">Eliminar</button>
-    `;
-
-        // Agregar el div al contenedor
-        animalList.appendChild(animalDiv);
+    animales.forEach(animal => {
+        const div = document.createElement("div");
+        div.classList.add("animal-card");
+        div.innerHTML = `
+            <h3>${animal.nombre}</h3>
+            <p><strong>Tipo:</strong> ${animal.tipo}</p>
+            <p><strong>Color:</strong> ${animal.color}</p>
+            <p><strong>Raza:</strong> ${animal.raza}</p>
+            <div class="actions">
+                <button onclick="verDetalles('${animal.nombre}')">Ver detalles</button>
+                <button class="delete-btn" onclick="confirmarEliminar('${animal.nombre}')">Eliminar</button>
+            </div>
+        `;
+        lista.appendChild(div);
     });
 }
 
-// Función para buscar animales por nombre
-function searchAnimal() {
-    const searchQuery = document.getElementById('search').value.toLowerCase();
+function buscarAnimal() {
+    const nombre = document.getElementById("search").value.toLowerCase();
+    const tarjetas = document.querySelectorAll(".animal-card");
 
-    // Filtramos los animales que coinciden con el nombre
-    const filteredAnimals = allAnimals.filter(animal =>
-        animal.name.toLowerCase().includes(searchQuery)
-    );
-
-    displayAnimals(filteredAnimals);  // Mostrar los animales filtrados
+    tarjetas.forEach(card => {
+        const nombreAnimal = card.querySelector("h3").textContent.toLowerCase();
+        card.style.display = nombreAnimal.includes(nombre) ? "block" : "none";
+    });
 }
 
-// Función para añadir un nuevo animal
-function addAnimal() {
-    const name = document.getElementById('animal-name').value;
-    const type = document.getElementById('animal-type').value;
-    const color = document.getElementById('animal-color').value;
-    const breed = document.getElementById('animal-breed').value;
-
-    const animalData = {
-        name,
-        type,
-        color,
-        breed
-    };
-
-    fetch('https://apivet-f3bdad4c157d.herokuapp.com/animals', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(animalData),
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Agregar el nuevo animal a la lista
-            allAnimals.push(data);
-            displayAnimals(allAnimals);  // Actualizar la vista
-        })
-        .catch(error => console.error('Error al añadir el animal:', error));
+function confirmarEliminar(id) {
+    if (confirm("¿Seguro que quieres eliminar este animal?")) {
+        eliminarAnimal(id);
+    }
 }
 
-// Función para ver detalles de un animal
-function viewDetails(id) {
-    window.location.href = `animal-details.html?id=${id}`;
+async function eliminarAnimal(id) {
+    await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    cargarAnimales(); // Recargar lista después de eliminar
 }
 
-// Función para mostrar el modal de confirmación de eliminación
-function askDelete(id) {
-    animalToDelete = id;
-    document.getElementById('confirmModal').style.display = 'flex';
-}
-
-// Función para confirmar la eliminación
-function confirmDelete() {
-    fetch(`https://apivet-f3bdad4c157d.herokuapp.com/animals/${animalToDelete}`, {
-        method: 'DELETE',
-    })
-        .then(response => {
-            if (response.ok) {
-                // Eliminar el animal de la lista local
-                allAnimals = allAnimals.filter(animal => animal.id !== animalToDelete);
-                displayAnimals(allAnimals);  // Actualizar la vista
-                closeModal();  // Cerrar el modal
-            } else {
-                console.error('Error al eliminar el animal');
-            }
-        })
-        .catch(error => console.error('Error al eliminar el animal:', error));
-}
-
-// Función para cerrar el modal de confirmación
-function closeModal() {
-    document.getElementById('confirmModal').style.display = 'none';
-}
-
-// Cargar todos los animales cuando se carga la página
-getAllAnimals();
+// Cargar animales al cargar la página
+document.addEventListener("DOMContentLoaded", cargarAnimales);
