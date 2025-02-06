@@ -1,26 +1,11 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
-    padding: 20px;
-}
-
-h1 {
+﻿/* Alinear el título al centro */
+h2 {
     text-align: center;
+    font-size: 24px;
     color: #333;
 }
 
-.buscador {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-    .buscador input {
-        padding: 8px;
-        margin-right: 10px;
-    }
-
+/* Contenedor de animales */
 #contenedorAnimales {
     display: flex;
     flex-wrap: wrap;
@@ -28,6 +13,7 @@ h1 {
     justify-content: center;
 }
 
+/* Estilos de cada tarjeta de animal */
 .animal {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
@@ -35,19 +21,42 @@ h1 {
     padding: 15px;
     width: 200px;
     text-align: center;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
 }
 
+    /* Títulos dentro de las tarjetas */
     .animal h3 {
         font-size: 18px;
         margin-bottom: 10px;
+        color: #333;
     }
 
+    /* Texto dentro de las tarjetas */
     .animal p {
         font-size: 14px;
         margin: 5px 0;
+        color: #555;
     }
 
-    .animal button {
+    /* Botón "Ver detalles" (cyan) */
+    .animal .btn-ver {
+        background-color: cyan;
+        border: none;
+        color: black;
+        padding: 8px 15px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s ease;
+    }
+
+        .animal .btn-ver:hover {
+            background-color: #00b3b3;
+        }
+
+    /* Botón "Eliminar" (rojo) */
+    .animal .btn-eliminar {
         background-color: #ff4d4d;
         border: none;
         color: white;
@@ -55,8 +64,46 @@ h1 {
         margin: 5px;
         cursor: pointer;
         border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.3s ease;
     }
 
-        .animal button:hover {
+        .animal .btn-eliminar:hover {
             background-color: #e60000;
         }
+
+/* 🎨 Botón de buscar (diseño atractivo) */
+#buscarBtn {
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+    #buscarBtn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    #buscarBtn:active {
+        transform: scale(0.95);
+    }
+
+/* Input del buscador */
+.buscador {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .buscador input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
