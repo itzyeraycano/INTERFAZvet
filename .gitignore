@@ -1,0 +1,10 @@
+# Ignorar archivos de Visual Studio
+.vs/
+
+# Ignorar archivos compilados y generados por Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar archivos de entorno virtual de Python
+venv/
