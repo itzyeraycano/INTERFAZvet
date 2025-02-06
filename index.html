@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Animales</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Gestión de Animales</h1>
+
+    <div id="controls">
+        <button onclick="getAllAnimals()">Ver todos los animales</button>
+        <input type="text" id="searchName" placeholder="Buscar por nombre">
+        <button onclick="searchByName()">Buscar</button>
+        <button onclick="showAddAnimalForm()">Añadir Animal</button>
+    </div>
+
+    <div id="animal-list"></div>
+
+    <div id="add-animal-form" style="display: none;">
+        <h2>Añadir Animal</h2>
+        <input type="text" id="new-name" placeholder="Nombre">
+        <input type="text" id="new-type" placeholder="Tipo">
+        <input type="text" id="new-color" placeholder="Color">
+        <input type="text" id="new-breed" placeholder="Raza">
+        <button onclick="addAnimal()">Guardar</button>
+        <button onclick="hideAddAnimalForm()">Cancelar</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
