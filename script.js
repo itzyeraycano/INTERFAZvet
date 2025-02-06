@@ -13,6 +13,8 @@
                     }
                 });
             });
+       });
+
 
             // Función para cargar todos los animales
             function cargarAnimales() {
@@ -62,8 +64,8 @@
                     <p>Color: ${animal.color}</p>
                     <p>Raza: ${animal.raza}</p>
                     <button class="verDetallesBtn">Ver detalles</button>
-                    <button class="eliminarBtn" onclick="eliminarAnimal('${animal.nombre}')">Eliminar</button>
-                `;
+                    <button class="eliminarBtn" onclick="eliminarAnimal('${animal.nombre}')">Eliminar</button>`
+                  ;
                     contenedor.appendChild(div);
                 });
             }
@@ -86,3 +88,4 @@
                         .catch(error => console.error("Error al eliminar animal:", error));
                 }
             }
+  
