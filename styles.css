@@ -32,6 +32,11 @@ h1 {
             background-color: #0056b3;
         }
 
+h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
 #animales-container {
     display: flex;
     flex-direction: column;
@@ -44,31 +49,34 @@ h1 {
     margin: 10px;
     width: 300px;
     border-radius: 5px;
-    text-align: left;
+    text-align: center;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-    .animal button {
-        margin-top: 10px;
+    .animal h3 {
+        margin: 0;
+        padding-bottom: 5px;
+    }
+
+    .animal p {
+        margin: 5px 0;
+    }
+
+.botones {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+    .botones button {
         padding: 5px 10px;
         border: none;
         cursor: pointer;
+        background-color: #007BFF;
+        color: white;
+        border-radius: 3px;
     }
 
-.btn-ver {
-    background-color: #28a745;
-    color: white;
-}
-
-    .btn-ver:hover {
-        background-color: #218838;
-    }
-
-.btn-eliminar {
-    background-color: #dc3545;
-    color: white;
-}
-
-    .btn-eliminar:hover {
-        background-color: #c82333;
-    }
+        .botones button:hover {
+            background-color: #0056b3;
+        }

@@ -41,8 +41,10 @@ function mostrarAnimales(animales) {
             <p><strong>Tipo:</strong> ${animal.tipo}</p>
             <p><strong>Color:</strong> ${animal.color}</p>
             <p><strong>Raza:</strong> ${animal.raza}</p>
-            <button class="btn-ver">Ver detalles</button>
-            <button class="btn-eliminar" onclick="eliminarAnimal('${nombre}')">Eliminar</button>
+            <div class="botones">
+                <button onclick="verDetalles('${nombre}')">Ver detalles</button>
+                <button onclick="eliminarAnimal('${nombre}')">Eliminar</button>
+            </div>
         `;
 
         container.appendChild(animalDiv);
@@ -87,3 +89,8 @@ function eliminarAnimal(nombre) {
             .catch(error => console.error("Error al eliminar el animal:", error));
     }
 }
+
+function verDetalles(nombre) {
+    alert(`Aquí se mostrarán los detalles de ${nombre} en el futuro.`);
+}
+
