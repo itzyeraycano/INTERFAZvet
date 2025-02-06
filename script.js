@@ -1,8 +1,24 @@
 const API_URL = "https://apivet-f3bdad4c157d.herokuapp.com";
 
+fetch('https://apivet-f3bdad4c157d.herokuapp.com/animales/Luna', {
+    method: 'GET',
+    mode: 'no-cors' // Esto desactiva la política de CORS
+})
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok');
+    })
+    .then(data => console.log(data))
+    .catch(error => console.error('There was a problem with the fetch operation:', error));
+
+
+
+
 // Obtener todos los animales
 function getAllAnimals() {
-    fetch(`${API_URL}/animales`)
+    fetch(`${API_URL}/animales`)  // Verifica que la URL esté correcta
         .then(response => response.json())
         .then(data => {
             const list = document.getElementById("animal-list");
