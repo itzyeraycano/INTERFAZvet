@@ -1,67 +1,62 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
-    margin: 0;
+    background-color: #f4f4f9;
+    color: #333;
     padding: 20px;
 }
 
 h1 {
+    text-align: center;
     color: #333;
 }
 
-.search-bar {
+.buscador {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
-input {
-    padding: 8px;
-    margin-right: 10px;
-}
-
-button {
-    padding: 8px 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-    button:hover {
-        background-color: #0056b3;
+    .buscador input {
+        padding: 8px;
+        margin-right: 10px;
     }
 
-#animal-list {
+#contenedorAnimales {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
-.animal-card {
-    background-color: #ddd;
-    padding: 15px;
-    margin: 10px;
-    width: 300px;
+.animal {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 200px;
+    text-align: center;
 }
 
-    .animal-card h3 {
-        margin: 0;
+    .animal h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
     }
 
-    .animal-card p {
+    .animal p {
+        font-size: 14px;
         margin: 5px 0;
     }
 
-.actions {
-    margin-top: 10px;
-}
-
-.delete-btn {
-    background-color: red;
-}
-
-    .delete-btn:hover {
-        background-color: darkred;
+    .animal button {
+        background-color: #ff4d4d;
+        border: none;
+        color: white;
+        padding: 8px 15px;
+        margin: 5px;
+        cursor: pointer;
+        border-radius: 5px;
     }
+
+        .animal button:hover {
+            background-color: #e60000;
+        }
